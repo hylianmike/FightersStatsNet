@@ -2,9 +2,10 @@
 {
     public class Attack
     {
-        public int AttackID { get; set; }
-        public string? AttackName { get; set; }
+        public int AttackId { get; set; }
+        public string? Name { get; set; }
         public string? ButtonInput { get; set; }
-        public int Fighter { get; set; }
+        public int FighterId { get; set; }
+        public Fighter? Fighter { get; set; }
     }
 }

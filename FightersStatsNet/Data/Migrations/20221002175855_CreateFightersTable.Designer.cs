@@ -4,6 +4,7 @@ using FightersStatsNet.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,10 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace FightersStatsNet.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20221002175855_CreateFightersTable")]
+    partial class CreateFightersTable
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -24,22 +26,25 @@ namespace FightersStatsNet.Data.Migrations
 
             modelBuilder.Entity("FightersStatsNet.Models.Attack", b =>
                 {
-                    b.Property<int>("AttackId")
+                    b.Property<int>("AttackID")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("AttackId"), 1L, 1);
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("AttackID"), 1L, 1);
+
+                    b.Property<string>("AttackName")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("ButtonInput")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("FighterId")
+                    b.Property<int>("Fighter")
                         .HasColumnType("int");
 
-                    b.Property<string>("Name")
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<int?>("FighterId")
+                        .HasColumnType("int");
 
-                    b.HasKey("AttackId");
+                    b.HasKey("AttackID");
 
                     b.HasIndex("FighterId");
 
@@ -54,15 +59,15 @@ namespace FightersStatsNet.Data.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("FighterId"), 1L, 1);
 
-                    b.Property<int>("GameId")
+                    b.Property<string>("Name")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int?>("GameID")
                         .HasColumnType("int");
 
                     b.Property<string>("Gender")
                         .IsRequired()
                         .HasColumnType("nvarchar(1)");
-
-                    b.Property<string>("Name")
-                        .HasColumnType("nvarchar(max)");
 
                     b.Property<int>("SkillLevel")
                         .HasColumnType("int");
@@ -75,18 +80,18 @@ namespace FightersStatsNet.Data.Migrations
 
                     b.HasKey("FighterId");
 
-                    b.HasIndex("GameId");
+                    b.HasIndex("GameID");
 
                     b.ToTable("Fighters");
                 });
 
             modelBuilder.Entity("FightersStatsNet.Models.Game", b =>
                 {
-                    b.Property<int>("GameId")
+                    b.Property<int>("GameID")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("GameId"), 1L, 1);
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("GameID"), 1L, 1);
 
                     b.Property<string>("Name")
                         .HasColumnType("nvarchar(max)");
@@ -94,7 +99,7 @@ namespace FightersStatsNet.Data.Migrations
                     b.Property<int>("YearOfRelease")
                         .HasColumnType("int");
 
-                    b.HasKey("GameId");
+                    b.HasKey("GameID");
 
                     b.ToTable("Game");
                 });
@@ -303,22 +308,16 @@ namespace FightersStatsNet.Data.Migrations
 
             modelBuilder.Entity("FightersStatsNet.Models.Attack", b =>
                 {
-                    b.HasOne("FightersStatsNet.Models.Fighter", "Fighter")
+                    b.HasOne("FightersStatsNet.Models.Fighter", null)
                         .WithMany("Attacks")
-                        .HasForeignKey("FighterId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Fighter");
+                        .HasForeignKey("FighterId");
                 });
 
             modelBuilder.Entity("FightersStatsNet.Models.Fighter", b =>
                 {
                     b.HasOne("FightersStatsNet.Models.Game", "Game")
-                        .WithMany("Fighters")
-                        .HasForeignKey("GameId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .WithMany("Characters")
+                        .HasForeignKey("GameID");
 
                     b.Navigation("Game");
                 });
@@ -381,7 +380,7 @@ namespace FightersStatsNet.Data.Migrations
 
             modelBuilder.Entity("FightersStatsNet.Models.Game", b =>
                 {
-                    b.Navigation("Fighters");
+                    b.Navigation("Characters");
                 });
 #pragma warning restore 612, 618
         }

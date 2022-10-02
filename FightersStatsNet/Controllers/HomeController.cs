@@ -2,7 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using System.Diagnostics;
 
-namespace FightersStatsNet.Controllers
+namespace BoozeDotNet.Controllers
 {
     public class HomeController : Controller
     {

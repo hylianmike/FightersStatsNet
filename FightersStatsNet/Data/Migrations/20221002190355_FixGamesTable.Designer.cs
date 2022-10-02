@@ -4,6 +4,7 @@ using FightersStatsNet.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,10 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace FightersStatsNet.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20221002190355_FixGamesTable")]
+    partial class FixGamesTable
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -33,15 +35,10 @@ namespace FightersStatsNet.Data.Migrations
                     b.Property<string>("ButtonInput")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("FighterId")
-                        .HasColumnType("int");
-
                     b.Property<string>("Name")
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("AttackId");
-
-                    b.HasIndex("FighterId");
 
                     b.ToTable("Attacks");
                 });
@@ -301,17 +298,6 @@ namespace FightersStatsNet.Data.Migrations
                     b.ToTable("AspNetUserTokens", (string)null);
                 });
 
-            modelBuilder.Entity("FightersStatsNet.Models.Attack", b =>
-                {
-                    b.HasOne("FightersStatsNet.Models.Fighter", "Fighter")
-                        .WithMany("Attacks")
-                        .HasForeignKey("FighterId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Fighter");
-                });
-
             modelBuilder.Entity("FightersStatsNet.Models.Fighter", b =>
                 {
                     b.HasOne("FightersStatsNet.Models.Game", "Game")
@@ -372,11 +358,6 @@ namespace FightersStatsNet.Data.Migrations
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-                });
-
-            modelBuilder.Entity("FightersStatsNet.Models.Fighter", b =>
-                {
-                    b.Navigation("Attacks");
                 });
 
             modelBuilder.Entity("FightersStatsNet.Models.Game", b =>
