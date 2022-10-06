@@ -57,7 +57,7 @@ namespace FightersStatsNet.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("FighterId,Name,Gender,SkillLevel,Strengths,Weaknesses,GameId")] Fighter fighter)
+        public async Task<IActionResult> Create([Bind("FighterId,Name,Gender,PlayStyle,SkillLevel,Strengths,Weaknesses,GameId")] Fighter fighter)
         {
             if (ModelState.IsValid)
             {
@@ -91,7 +91,7 @@ namespace FightersStatsNet.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("FighterId,Name,Gender,SkillLevel,Strengths,Weaknesses,GameId")] Fighter fighter)
+        public async Task<IActionResult> Edit(int id, [Bind("FighterId,Name,Gender,PlayStyle,SkillLevel,Strengths,Weaknesses,GameId")] Fighter fighter)
         {
             if (id != fighter.FighterId)
             {

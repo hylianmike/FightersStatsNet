@@ -1,18 +1,46 @@
 html {
-  font-size: 14px;
+    font-size: 14px;
 }
 
 @media (min-width: 768px) {
-  html {
-    font-size: 16px;
-  }
+    html {
+        font-size: 16px;
+    }
 }
 
 html {
-  position: relative;
-  min-height: 100%;
+    position: relative;
+    min-height: 100%;
 }
 
 body {
-  margin-bottom: 60px;
+    margin-bottom: 60px;
 }
+
+.navbar-dark {
+    background-color: #F44336;
+}
+
+    .navbar-dark a {
+        color: #FFFFFF !important;
+    }
+
+        .navbar-dark a:hover {
+            color: #FFCDD2 !important;
+        }
+
+footer {
+    background-color: #607D8B;
+}
+
+    footer p {
+        color: #FFFFFF;
+    }
+
+        footer p a {
+            color: #FFCDD2 !important;
+        }
+
+            footer p a:hover {
+                color: #FFFFFF !important;
+            }
