@@ -1,14 +1,11 @@
 ﻿@model FightersStatsNet.Models.Fighter
 
 @{
-    ViewData["Title"] = "Delete";
+    ViewData["Title"] = "Delete Fighter";
 }
 
-<h1>Delete</h1>
-
-<h3>Are you sure you want to delete this?</h3>
+<h3>Are you sure you want to delete this fighter?</h3>
 <div>
-    <h4>Fighter</h4>
     <hr />
     <dl class="row">
         <dt class = "col-sm-2">
@@ -45,7 +42,7 @@
             @Html.DisplayNameFor(model => model.Game)
         </dt>
         <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Game.GameId)
+            @Html.DisplayFor(model => model.Game.Name)
         </dd>
     </dl>
     
