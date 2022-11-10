@@ -6,3 +6,5 @@ It is a fighting game hub. Users can select from existing games, and add charact
 Users will be able to track their statistics with characters they find inerest in. 
 When trying to learn a fighting game, there are many characters and playstyles to try out and see what works best with you. 
 This app will assist users in showing which characters they are performing best with, and manage different user-inputted statistics.
+
+View the Live Site hosted on Azure Web Services <a href="https://fighterstatsnet.azurewebsites.net/">here</a>.
