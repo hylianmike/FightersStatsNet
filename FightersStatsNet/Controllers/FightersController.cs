@@ -7,9 +7,11 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using FightersStatsNet.Data;
 using FightersStatsNet.Models;
+using Microsoft.AspNetCore.Authorization;
 
 namespace FightersStatsNet.Controllers
 {
+    [Authorize]
     public class FightersController : Controller
     {
         private readonly ApplicationDbContext _context;
@@ -20,6 +22,7 @@ namespace FightersStatsNet.Controllers
         }
 
         // GET: Fighters
+        [AllowAnonymous]
         public async Task<IActionResult> Index()
         {
             var applicationDbContext = _context.Fighters.Include(f => f.Game);
@@ -27,6 +30,7 @@ namespace FightersStatsNet.Controllers
         }
 
         // GET: Fighters/Details/5
+        [AllowAnonymous]
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null || _context.Fighters == null)

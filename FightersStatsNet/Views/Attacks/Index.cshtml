@@ -6,9 +6,11 @@
 
 <h1>All Attacks</h1>
 
-<p>
-    <a asp-action="Create">Add A New Attack</a>
-</p>
+@if(User.Identity.IsAuthenticated){
+    <p>
+        <a asp-action="Create">Add A New Attack</a>
+    </p>
+}
 <table class="table">
     <thead>
         <tr>
@@ -37,9 +39,13 @@
                 @Html.DisplayFor(modelItem => item.Fighter.Name)
             </td>
             <td>
-                <a asp-action="Edit" asp-route-id="@item.AttackId">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.AttackId">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.AttackId">Delete</a>
+                @if(User.Identity.IsAuthenticated) {
+                    <a asp-action="Edit" asp-route-id="@item.AttackId">Edit</a>
+                }
+                | <a asp-action="Details" asp-route-id="@item.AttackId">Details</a> |
+                @if(User.Identity.IsAuthenticated) {
+                    <a asp-action="Delete" asp-route-id="@item.AttackId">Delete</a>
+                }
             </td>
         </tr>
 }

@@ -6,9 +6,11 @@
 
 <h1>All Characters</h1>
 
-<p>
-    <a asp-action="Create">Add A New Fighter</a>
-</p>
+@if(User.Identity.IsAuthenticated){
+    <p>
+        <a asp-action="Create">Add A New Fighter</a>
+    </p>
+}
 <table class="table">
     <thead>
         <tr>
@@ -49,9 +51,13 @@
                 @Html.DisplayFor(modelItem => item.Game.Name)
             </td>
             <td>
-                <a asp-action="Edit" asp-route-id="@item.FighterId">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.FighterId">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.FighterId">Delete</a>
+                @if(User.Identity.IsAuthenticated) {
+                    <a asp-action="Edit" asp-route-id="@item.FighterId">Edit</a>
+                }
+                | <a asp-action="Details" asp-route-id="@item.FighterId">Details</a> |
+                @if(User.Identity.IsAuthenticated) {
+                    <a asp-action="Delete" asp-route-id="@item.FighterId">Delete</a>
+                }
             </td>
         </tr>
 }
