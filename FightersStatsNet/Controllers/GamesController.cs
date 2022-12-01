@@ -25,7 +25,7 @@ namespace FightersStatsNet.Controllers
         [AllowAnonymous]
         public async Task<IActionResult> Index()
         {
-              return View(await _context.Game.ToListAsync());
+              return View("Index", await _context.Game.ToListAsync());
         }
 
         // GET: Games/Details/5
