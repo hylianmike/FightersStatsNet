@@ -18,13 +18,13 @@ namespace FighterStatsNetTests
             var options = new DbContextOptionsBuilder<ApplicationDbContext>().UseInMemoryDatabase(Guid.NewGuid().ToString()).Options;
             context = new ApplicationDbContext(options);
 
-            var game = new Game { GameId = 505, Name = "Street Fighter 3rd Strike" };
+            Game game = new Game { GameId = 505, Name = "Street Fighter 3rd Strike" };
             context.Add(game);
 
-            var fighter = new Fighter { FighterId = 580, Name = "Ryu", Gender = 'M', PlayStyle = "All-Rounder", SkillLevel = 7, Game = game, GameId = 505 };
+            Fighter fighter = new Fighter { FighterId = 580, Name = "Ryu", Gender = 'M', PlayStyle = "All-Rounder", SkillLevel = 7, Game = game, GameId = 505 };
             context.Add(fighter);
 
-            var attack = new Attack { AttackId = 610, Name = "Hadouken", ButtonInput = "Quarter-Circle Forward + Punch", Fighter = fighter, FighterId = 580 };
+            Attack attack = new Attack { AttackId = 610, Name = "Hadouken", ButtonInput = "Quarter-Circle Forward + Punch", Fighter = fighter, FighterId = 580 };
             context.Add(attack);
             context.SaveChanges();
 
@@ -32,6 +32,7 @@ namespace FighterStatsNetTests
         }
 
         #region "Index Tests"
+
         [TestMethod]
         public void IndexLoadView()
         {
@@ -48,6 +49,159 @@ namespace FighterStatsNetTests
 
             CollectionAssert.AreEqual(context.Game.ToList(), games);
         }
+        #endregion
+
+        #region "Details Tests"
+
+        [TestMethod]
+        public void DetailsNoID()
+        {
+            var result = (ViewResult)controller.Details(null).Result;
+
+            Assert.AreEqual("NewError", result.ViewName);
+        }
+
+        [TestMethod]
+        public void DetailsInvalidID()
+        {
+            var result = (ViewResult)controller.Details(900).Result;
+
+            Assert.AreEqual("NewError", result.ViewName);
+        }
+
+        [TestMethod]
+        public void DetailsNoGameTable()
+        {
+            context.Game = null;
+
+            var result = (ViewResult)controller.Details(505).Result;
+
+            Assert.AreEqual("NewError", result.ViewName);
+        }
+
+        [TestMethod]
+        public void DetailsValidIDLoadsView()
+        {
+            var result = (ViewResult)controller.Details(505).Result;
+
+            Assert.AreEqual("Details", result.ViewName);
+        }
+
+        [TestMethod]
+        public void DetailsValidIDLoadsObject()
+        {
+            var result = (ViewResult)controller.Details(505).Result;
+
+            Assert.AreEqual(result.Model, context.Game.Find(505));
+        }
+
+        #endregion
+
+        #region "Create Tests"
+
+        [TestMethod]
+        public void CreateLoadsView()
+        {
+            var result = (ViewResult)controller.Create();
+            Assert.AreEqual("Create", result.ViewName);
+        }
+
+        [TestMethod]
+        public void CreateInvalidModel()
+        {
+            controller.ModelState.AddModelError("This is a failure", "Model Invalid");
+            var result = (ViewResult)controller.Create(new Game { GameId = 505, Name = "Street Fighter 3rd Strike" }).Result;
+
+            Assert.AreEqual("Create Error", result.ViewName);
+        }
+
+        [TestMethod]
+        public void CreateValidModelLoadsView()
+        {
+            var result = (ViewResult)controller.Create(new Game { GameId = 900, Name = "Street Fighter 3rd Strike" }).Result;
+
+            Assert.AreEqual("Index", result.ViewName);
+        }
+
+        [TestMethod]
+        public void CreateValidModelAddsObject()
+        {
+            Game game = new Game { GameId = 900, Name = "Street Fighter 3rd Strike" };
+            var result = (ViewResult)controller.Create(game).Result;
+
+            Assert.AreEqual(game, context.Game.Find(900));
+        }
+        #endregion
+
+        #region "Edit Tests"
+
+        [TestMethod]
+        public void EditNoID()
+        {
+            var result = (ViewResult)controller.Edit(null).Result;
+
+            Assert.AreEqual("NewError", result.ViewName);
+        }
+
+        [TestMethod]
+        public void EditInvalidID()
+        {
+            var result = (ViewResult)controller.Edit(900).Result;
+
+            Assert.AreEqual("NewError", result.ViewName);
+        }
+
+        [TestMethod]
+        public void EditNoGameTable()
+        {
+            context.Game = null;
+
+            var result = (ViewResult)controller.Edit(505).Result;
+
+            Assert.AreEqual("NewError", result.ViewName);
+        }
+
+        [TestMethod]
+        public void EditValidIDLoadsView()
+        {
+            var result = (ViewResult)controller.Edit(505).Result;
+
+            Assert.AreEqual("Edit", result.ViewName);
+        }
+
+        [TestMethod]
+        public void EditValidIDLoadsObject()
+        {
+            var result = (ViewResult)controller.Edit(505).Result;
+
+            Assert.AreEqual(result.Model, context.Game.Find(505));
+        }
+
+        [TestMethod]
+        public void SaveEditWrongID()
+        {
+            var result = (ViewResult)controller.Edit(900, context.Game.Find(505)).Result;
+
+            Assert.AreEqual("NewError", result.ViewName);
+        }
+
+        [TestMethod]
+        public void SaveEditInvalidModel()
+        {
+            controller.ModelState.AddModelError("This is a failure", "Model Invalid");
+            var result = (ViewResult)controller.Edit(505, context.Game.Find(505)).Result;
+
+            Assert.AreEqual("Edit Error", result.ViewName);
+        }
+
+        [TestMethod]
+        public void SaveEditValidModel()
+        {
+            var result = (ViewResult)controller.Edit(505, context.Game.Find(505)).Result;
+
+            Assert.AreEqual("Index", result.ViewName);
+        }
+
         #endregion
     }
 }

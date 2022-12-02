@@ -34,23 +34,23 @@ namespace FightersStatsNet.Controllers
         {
             if (id == null || _context.Game == null)
             {
-                return NotFound();
+                return View("NewError");
             }
 
             var game = await _context.Game
                 .FirstOrDefaultAsync(m => m.GameId == id);
             if (game == null)
             {
-                return NotFound();
+                return View("NewError");
             }
 
-            return View(game);
+            return View("Details", game);
         }
 
         // GET: Games/Create
         public IActionResult Create()
         {
-            return View();
+            return View("Create");
         }
 
         // POST: Games/Create
@@ -64,9 +64,9 @@ namespace FightersStatsNet.Controllers
             {
                 _context.Add(game);
                 await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
+                return View("Index", await _context.Game.ToListAsync());
             }
-            return View(game);
+            return View("Create Error", game);
         }
 
         // GET: Games/Edit/5
@@ -74,15 +74,15 @@ namespace FightersStatsNet.Controllers
         {
             if (id == null || _context.Game == null)
             {
-                return NotFound();
+                return View("NewError");
             }
 
             var game = await _context.Game.FindAsync(id);
             if (game == null)
             {
-                return NotFound();
+                return View("NewError");
             }
-            return View(game);
+            return View("Edit", game);
         }
 
         // POST: Games/Edit/5
@@ -94,7 +94,7 @@ namespace FightersStatsNet.Controllers
         {
             if (id != game.GameId)
             {
-                return NotFound();
+                return View("NewError");
             }
 
             if (ModelState.IsValid)
@@ -108,16 +108,16 @@ namespace FightersStatsNet.Controllers
                 {
                     if (!GameExists(game.GameId))
                     {
-                        return NotFound();
+                        return View("NewError");
                     }
                     else
                     {
                         throw;
                     }
                 }
-                return RedirectToAction(nameof(Index));
+                return View("Index", await _context.Game.ToListAsync());
             }
-            return View(game);
+            return View("Edit Error", game);
         }
 
         // GET: Games/Delete/5
@@ -125,14 +125,14 @@ namespace FightersStatsNet.Controllers
         {
             if (id == null || _context.Game == null)
             {
-                return NotFound();
+                return View("NewError");
             }
 
             var game = await _context.Game
                 .FirstOrDefaultAsync(m => m.GameId == id);
             if (game == null)
             {
-                return NotFound();
+                return View("NewError");
             }
 
             return View(game);
