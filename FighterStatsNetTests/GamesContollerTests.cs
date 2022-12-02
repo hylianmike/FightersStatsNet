@@ -203,5 +203,53 @@ namespace FighterStatsNetTests
         }
 
         #endregion
+
+        #region "Delete Tests"
+
+        [TestMethod]
+        public void DeleteNoID()
+        {
+            var result = (ViewResult)controller.Delete(null).Result;
+
+            Assert.AreEqual("NewError", result.ViewName);
+        }
+
+        [TestMethod]
+        public void DeleteInvalidID()
+        {
+            var result = (ViewResult)controller.Delete(900).Result;
+
+            Assert.AreEqual("NewError", result.ViewName);
+        }
+
+        [TestMethod]
+        public void DeleteNoGameTable()
+        {
+            context.Game = null;
+
+            var result = (ViewResult)controller.Delete(505).Result;
+
+            Assert.AreEqual("NewError", result.ViewName);
+        }
+
+        [TestMethod]
+        public void DeleteValidIDLoadsView()
+        {
+            var result = (ViewResult)controller.Delete(505).Result;
+
+            Assert.AreEqual("Delete", result.ViewName);
+        }
+
+        [TestMethod]
+        public void DeleteValidIDLoadsObject()
+        {
+            var result = (ViewResult)controller.Delete(505).Result;
+
+            Assert.AreEqual(result.Model, context.Game.Find(505));
+        }
+
+        #endregion
+
+
     }
 }

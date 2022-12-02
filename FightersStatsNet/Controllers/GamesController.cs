@@ -135,7 +135,7 @@ namespace FightersStatsNet.Controllers
                 return View("NewError");
             }
 
-            return View(game);
+            return View("Delete", game);
         }
 
         // POST: Games/Delete/5
