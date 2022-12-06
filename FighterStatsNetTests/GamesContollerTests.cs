@@ -127,7 +127,7 @@ namespace FighterStatsNetTests
         public void CreateValidModelAddsObject()
         {
             Game game = new Game { GameId = 900, Name = "Street Fighter 3rd Strike" };
-            var result = (ViewResult)controller.Create(game).Result;
+            controller.Create(game);
 
             Assert.AreEqual(game, context.Game.Find(900));
         }
@@ -248,8 +248,33 @@ namespace FighterStatsNetTests
             Assert.AreEqual(result.Model, context.Game.Find(505));
         }
 
-        #endregion
+        [TestMethod]
+        public void DeleteConfirmedNoGameTable()
+        {
+            context.Game = null;
 
+            var result = (ViewResult)controller.DeleteConfirmed(505).Result;
+
+            Assert.AreEqual("NewError", result.ViewName);
+        }
+
+        [TestMethod]
+        public void DeleteConfirmedReturnsIndexView()
+        {
+            var result = (ViewResult)controller.DeleteConfirmed(505).Result;
+
+            Assert.AreEqual("Index", result.ViewName);
+        }
+
+        [TestMethod]
+        public void DeleteConfirmedDeletesItem()
+        {
+            controller.DeleteConfirmed(505);
+
+            Assert.AreEqual(null, context.Game.Find(505));
+        }
+
+        #endregion
 
     }
 }

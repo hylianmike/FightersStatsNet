@@ -145,7 +145,7 @@ namespace FightersStatsNet.Controllers
         {
             if (_context.Game == null)
             {
-                return Problem("Entity set 'ApplicationDbContext.Game'  is null.");
+                return View("NewError");
             }
             var game = await _context.Game.FindAsync(id);
             if (game != null)
@@ -154,7 +154,7 @@ namespace FightersStatsNet.Controllers
             }
             
             await _context.SaveChangesAsync();
-            return RedirectToAction(nameof(Index));
+            return View("Index", await _context.Game.ToListAsync());
         }
 
         private bool GameExists(int id)
